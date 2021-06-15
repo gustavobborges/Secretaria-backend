@@ -1,0 +1,17 @@
+{
+    "type": "mysql",
+    "host": "localhost",
+    "port": 49153,
+    "username": "root",
+    "password": "root",
+    "database": "secretaria_mysql",
+    "entities": [
+        "./src/models/*.ts"
+    ],
+    "migrations": [
+        "./src/database/migrations/*.ts"
+    ],
+    "cli": {
+        "migrationsDir": "./src/database/migrations"
+    }
+}
