@@ -2,10 +2,10 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity('patients')
 class Patient {
-   
+
     @PrimaryGeneratedColumn('uuid')
     id: String;
-    
+
     @Column()
     name: String;
 

@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 
-import Provider from './Provider';
+import Appointment from './Appointment';
 
 @Entity('patients')
 class Patient {
@@ -8,25 +8,17 @@ class Patient {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @OneToMany(() => Appointment, appointment => appointment.patient)
+    appointments: Appointment[];
+
     @Column()
     name: String;
 
     @Column()
-    whatsCode: String;
+    phone: String;
 
-    @ManyToMany(() => Provider, { cascade: true, onDelete: 'CASCADE' })
-    @JoinTable({
-        name: 'patientHasProvider',
-        joinColumn: {
-            name: "patient_id",
-            referencedColumnName: "id"
-        },
-        inverseJoinColumn: {
-            name: "provider_id",
-            referencedColumnName: "id"
-        }
-    })
-    provider: Provider[];
+    @Column()
+    record: String;
 
     @CreateDateColumn()
     created_at: Date;

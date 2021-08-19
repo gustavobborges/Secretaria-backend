@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from 'typeorm';
+
 import Provider from './Provider';
 import Patient from './Patient';
 import AppointmentType from './AppointmentType';
@@ -9,41 +10,29 @@ class Appointment {
     @PrimaryGeneratedColumn('uuid')
     id: String;
 
-    // @Column()
-    // appointmentType_id: String
+    @ManyToOne(() => Provider, provider => provider.appointments)
+    provider: Provider;
 
-    // @Column()
-    // provider_id: String
+    @ManyToOne(() => Patient, patient => patient.appointments)
+    patient: Patient;
 
-    // @Column()
-    // patient_id: String
-
-    @ManyToOne(() => AppointmentType)
-    @JoinColumn({ name: 'appointmentType_id' })
-    appointmentType: AppointmentType | null;
-
-    @ManyToOne(() => Provider)
-    @JoinColumn({ name: 'provider_id' })
-    provider: Provider | null;
-
-    @ManyToOne(() => Patient)
-    @JoinColumn({ name: 'patient_id' })
-    patient: Patient | null;
-
+    @ManyToOne(() => AppointmentType, appointmentType => appointmentType.appointments)
+    appointmentType: AppointmentType;
+    
     @Column()
     name: String;
+
+    @Column()
+    place: String;
 
     @Column()
     description: String;
 
     @Column()
-    date: String;
+    dateInitial: Date;
 
     @Column()
-    duration: String;
-
-    @Column()
-    place: String;
+    dateFinal: Date;
 
     @CreateDateColumn()
     created_at: Date;

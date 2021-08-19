@@ -1,18 +1,28 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinColumn, JoinTable, OneToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany, JoinTable } from 'typeorm';
+
 import User from './User';
+import Appointment from './Appointment';
+import Patient from './Patient';
 
 @Entity('providers')
 class Provider {
    
     @PrimaryGeneratedColumn('uuid')
     id: String;
+
+    @OneToMany(() => Appointment, appointment => appointment.provider)
+    appointments: Appointment[];
     
     @Column()
-    user_id: String;
+    name: String;
+    
+    @ManyToMany(() => User)
+    @JoinTable({name: "providers_users"})
+    users: User[];
 
-    @OneToOne(() => User)
-    @JoinColumn({ name: 'user_id' })
-    user: User | null;
+    @ManyToMany(() => Patient)
+    @JoinTable({name: "providers_patients"})
+    patients: Patient[]
     
     @CreateDateColumn()
     created_at: Date;
