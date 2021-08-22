@@ -1,18 +1,18 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey, TableColumn } from "typeorm";
 
-export class ProviderUserMigration1623725319797 implements MigrationInterface {
+export class ProviderPatientMigration1629596239750 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'providers_users',
+        name: 'providers_patients',
         columns: [
           {
-            name: "userId",
+            name: "providerId",
             type: "varchar",
           },
           {
-            name: "providerId",
+            name: "patientId",
             type: "varchar",
           }
         ]
@@ -33,24 +33,24 @@ export class ProviderUserMigration1623725319797 implements MigrationInterface {
     //   // unsigned: true, 
     // }));
 
-    await queryRunner.createForeignKey('providers_users', new TableForeignKey({
-      columnNames: ['userId'],
-      referencedColumnNames: ['id'],
-      referencedTableName: 'users',
-      // onDelete: 'SET NULL',
-      // onUpdate: 'CASCADE',
-    }));
-
-    await queryRunner.createForeignKey('providers_users', new TableForeignKey({
+    await queryRunner.createForeignKey('providers_patients', new TableForeignKey({
       columnNames: ['providerId'],
       referencedColumnNames: ['id'],
       referencedTableName: 'providers',
       // onDelete: 'SET NULL',
       // onUpdate: 'CASCADE',
     }));
+
+    await queryRunner.createForeignKey('providers_patients', new TableForeignKey({
+      columnNames: ['patientId'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'patients',
+      // onDelete: 'SET NULL',
+      // onUpdate: 'CASCADE',
+    }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('providers_users');
+    await queryRunner.dropTable('providers_patients');
   }
 }
