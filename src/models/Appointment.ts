@@ -29,10 +29,10 @@ class Appointment {
     description: String;
 
     @Column()
-    dateInitial: Date;
+    initialDate: Date;
 
     @Column()
-    dateFinal: Date;
+    finalDate: Date;
 
     @CreateDateColumn()
     created_at: Date;
