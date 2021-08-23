@@ -9,7 +9,7 @@ providerRouter.get('/', async (req, res) => {
     const providers = await providerController.fetchAll();
     return res.json(providers);
   } catch (error) {
-    res.json({ message: "Problema ao buscar usuarios" });
+    res.json({ message: "Não foi possível buscar dentistas. Erro: " + error});
   }
 });
 
@@ -21,7 +21,7 @@ providerRouter.post('/', async (req, res) => {
     });
     return res.json(provider); 
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o Dentista" + error});
+    return res.json({message: "Não foi possível cadastrar o dentista. Erro: " + error});
   }
 })
 
@@ -34,9 +34,19 @@ providerRouter.put('/:id', async (req, res) => {
       id, name
     })
 
-    return res.json({message: "O Dentista foi alterado com sucesso"})
+    return res.json({message: "O dentista foi alterado com sucesso"})
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o dentista" + error});
+    return res.json({message: "Não foi possível cadastrar o dentista. Erro: " + error});
+  }
+});
+
+providerRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await appointmentTypeController.delete({ id });
+    return res.json({ message: "O dentista foi removido com sucesso." })
+  } catch (error) {
+    return res.json({message: "Não foi possível cadastrar o dentista. Erro: " + error});
   }
 })
 

@@ -9,7 +9,7 @@ appointmentRouter.get('/', async (req, res) => {
     const appointments = await appointmentController.fetchAll();
     return res.json(appointments);
   } catch (error) {
-    res.json({ message: "Problema ao buscar usuarios" });
+    res.json({ message: "Não foi possível cadastrar os usuarios. Erro: " });
   }
 });
 
@@ -28,7 +28,7 @@ appointmentRouter.post('/', async (req, res) => {
     });
     return res.json(appointment); 
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o compromisso" + error});
+    return res.json({message: "Não foi possível cadastrar o compromisso. Erro: " + error});
   }
 })
 
@@ -42,7 +42,17 @@ appointmentRouter.put('/:id', async (req, res) => {
 
     return res.json({message: "O compromisso foi alterado com sucesso"})
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o compromisso" + error});
+    return res.json({message: "Não foi possível cadastrar o compromisso. Erro: " + error});
+  }
+})
+
+appointmentRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await appointmentController.delete({ id });
+    return res.json({ message: "O compromisso foi removido com sucesso." })
+  } catch (error) {
+    return res.json({message: "Não foi possível cadastrar o compromisso. Erro: " + error});
   }
 })
 

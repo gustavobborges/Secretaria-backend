@@ -2,12 +2,16 @@ import { getRepository, getConnection } from 'typeorm';
 import AppointmentType from '../models/AppointmentType';
 
 interface RequestCreate {
-	name: String;
+  name: String;
 }
 
 interface RequestUpdate {
   id: String;
-	name: String;
+  name: String;
+}
+
+interface RequestDelete {
+  id: String;
 }
 
 class AppointmentTypeController {
@@ -33,7 +37,7 @@ class AppointmentTypeController {
       where: { name }
     });
 
-    if(checkEmailExists) {
+    if (checkEmailExists) {
       throw new Error('Este nome já está sendo utilizado.');
     } else {
       const updateAppointmentType = { name: name };
@@ -47,6 +51,18 @@ class AppointmentTypeController {
       return;
     }
   }
+
+  public async delete({ id }: RequestDelete): Promise<AppointmentType> {
+    const manager = getConnection().manager;
+    await manager.query(`UPDATE appointments SET appointmentTypeId = NULL WHERE appointmentTypeId = '${id}';`);
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(AppointmentType)
+      .where({ id: id })
+      .execute();
+    return;
+  }
 }
 
-export default AppointmentTypeController
+export default AppointmentTypeController;

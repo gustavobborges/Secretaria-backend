@@ -10,6 +10,10 @@ interface RequestUpdate {
 	name: String;
 }
 
+interface RequestDelete {
+  id: String;
+}
+
 class ProviderController {
 
   public async fetchAll() {
@@ -22,8 +26,7 @@ class ProviderController {
     const providersRepository = getRepository(Provider);
     const provider = new Provider();
     provider.name = name;
-
-    await providersRepository.save(provider);
+    await providersRepository.save(provider);   
     return provider;
   }
 
@@ -37,6 +40,19 @@ class ProviderController {
       .where({ id: id })
       .execute();
     return;
+  }
+
+  public async delete({ id }: RequestDelete): Promise<Provider> {
+    const manager = getConnection().manager;
+    await manager.query(`DELETE FROM providers_users WHERE providerId = '${id}';`);
+    await manager.query(`DELETE FROM providers_patients WHERE providerId = '${id}';`);		
+    await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(Provider)
+    .where({ id: id })
+    .execute();	
+  return;
   }
 }
 

@@ -9,7 +9,7 @@ appointmentTypeRouter.get('/', async (req, res) => {
     const appointmentTypes = await appointmentTypeController.fetchAll();
     return res.json(appointmentTypes);
   } catch (error) {
-    res.json({ message: "Problema ao buscar tipos de compromissos" });
+    res.json({ message: "Problema ao buscar tipos de compromissos. Erro: " + error});
   }
 });
 
@@ -21,7 +21,7 @@ appointmentTypeRouter.post('/', async (req, res) => {
     });
     return res.json(appointmentType); 
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o tipo de compromisso" + error});
+    return res.json({message: "Não foi possível cadastrar o tipo de compromisso. Erro: " + error});
   }
 })
 
@@ -35,7 +35,17 @@ appointmentTypeRouter.put('/:id', async (req, res) => {
 
     return res.json({message: "O usuário foi alterado com sucesso"})
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o tipo de compromisso" + error});
+    return res.json({message: "Não foi possível cadastrar o tipo de compromisso. Erro: " + error});
+  }
+})
+
+appointmentTypeRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await appointmentTypeController.delete({ id });
+    return res.json({ message: "O tipo de compromisso foi removido com sucesso." })
+  } catch (error) {
+    return res.json({message: "Não foi possível cadastrar o tipo de compromisso. Erro: " + error});
   }
 })
 

@@ -9,7 +9,7 @@ patientRouter.get('/', async (req, res) => {
     const patients = await patientController.fetchAll();
     return res.json(patients);
   } catch (error) {
-    res.json({ message: "Problema ao buscar usuarios" });
+    res.json({ message: "Não foi possível buscar usuarios. Erro: " + error });
   }
 });
 
@@ -23,7 +23,7 @@ patientRouter.post('/', async (req, res) => {
     });
     return res.json(patient); 
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o paciente" + error});
+    return res.json({message: "Não foi possível cadastrar o paciente. Erro: " + error});
   }
 })
 
@@ -38,7 +38,17 @@ patientRouter.put('/:id', async (req, res) => {
 
     return res.json({message: "O paciente foi alterado com sucesso"})
   } catch (error) {
-    return res.json({message: "Não foi possível cadastrar o paciente" + error});
+    return res.json({message: "Não foi possível cadastrar o paciente. Erro: " + error});
+  }
+});
+
+patientRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await appointmentTypeController.delete({ id });
+    return res.json({ message: "O paciente foi removido com sucesso." })
+  } catch (error) {
+    return res.json({message: "Não foi possível cadastrar o paciente. Erro: " + error});
   }
 })
 

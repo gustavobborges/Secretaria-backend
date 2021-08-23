@@ -14,6 +14,10 @@ interface RequestUpdate {
 	password: String;
 }
 
+interface RequestDelete {
+  id: String;
+}
+
 class UserController {
 
   public async fetchAll() {
@@ -53,7 +57,18 @@ class UserController {
       return;
     }
   }
+
+  public async delete({ id }: RequestDelete): Promise<User> {
+    const manager = getConnection().manager;
+    await manager.query(`DELETE FROM providers_users WHERE userId = '${id}';`);		
+    await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(User)
+    .where({ id: id })
+    .execute();	
+  return;
+  }
 }
 
 export default UserController
-// module.exports = new UserController();

@@ -5,9 +5,9 @@ import Patient from '../models/Patient';
 import AppointmentType from '../models/AppointmentType';
 
 interface RequestCreate {
-	name: String;
-	provider: Provider;
-	patient: Patient;
+  name: String;
+  provider: Provider;
+  patient: Patient;
   appointmentType: AppointmentType;
   place: String;
   description: String;
@@ -17,14 +17,18 @@ interface RequestCreate {
 
 interface RequestUpdate {
   id: String;
-	name: String;
-	provider: Provider;
-	patient: Patient;
+  name: String;
+  provider: Provider;
+  patient: Patient;
   appointmentType: AppointmentType;
   place: String;
   description: String;
   initialDate: Date;
   finalDate: Date;
+}
+
+interface RequestDelete {
+  id: String;
 }
 
 class AppointmentController {
@@ -46,20 +50,19 @@ class AppointmentController {
     appointment.description = description;
     appointment.initialDate = initialDate;
     appointment.finalDate = finalDate;
-
     await appointmentsRepository.save(appointment);
     return appointment;
   }
 
-  public async update({ id, name, provider, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {   
-    const updateAppointment = { 
+  public async update({ id, name, provider, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
+    const updateAppointment = {
       name: name,
-      provider: provider, 
-      patient: patient, 
-      appointmentType: appointmentType, 
-      place: place, 
-      description: description, 
-      initialDate: initialDate, 
+      provider: provider,
+      patient: patient,
+      appointmentType: appointmentType,
+      place: place,
+      description: description,
+      initialDate: initialDate,
       finalDate: finalDate,
     };
     Object.keys(updateAppointment).forEach(key => updateAppointment[key] === undefined ? delete updateAppointment[key] : {})
@@ -70,7 +73,16 @@ class AppointmentController {
       .where({ id: id })
       .execute();
     return;
-    
+  }
+
+  public async delete({ id }: RequestDelete): Promise<Appointment> {
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(Appointment)
+      .where({ id: id })
+      .execute();
+    return;
   }
 }
 
