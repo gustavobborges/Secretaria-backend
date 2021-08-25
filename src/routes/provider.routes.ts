@@ -43,7 +43,7 @@ providerRouter.put('/:id', async (req, res) => {
 providerRouter.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await appointmentTypeController.delete({ id });
+    await providerController.delete({ id });
     return res.json({ message: "O dentista foi removido com sucesso." })
   } catch (error) {
     return res.json({message: "Não foi possível cadastrar o dentista. Erro: " + error});

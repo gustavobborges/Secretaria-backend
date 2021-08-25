@@ -45,7 +45,7 @@ patientRouter.put('/:id', async (req, res) => {
 patientRouter.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await appointmentTypeController.delete({ id });
+    await patientController.delete({ id });
     return res.json({ message: "O paciente foi removido com sucesso." })
   } catch (error) {
     return res.json({message: "Não foi possível cadastrar o paciente. Erro: " + error});
