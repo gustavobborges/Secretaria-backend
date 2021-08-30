@@ -5,7 +5,6 @@ const appointmentTypeController = require('../controllers/AppointmentTypeControl
 const patientController = require('../controllers/PatientController');
 const authController = require('../controllers/AuthController');
 
-
 module.exports = {
   userController,
   providerController,

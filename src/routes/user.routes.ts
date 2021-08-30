@@ -7,7 +7,9 @@ import AuthController from '../controllers/AuthController'
 const userController = new UserController();
 const authController = new AuthController();
 
-userRouter.get('/', authController.authMiddleware, async (req, res) => {
+// userRouter.get('/', authController.authMiddleware, async (req, res) => {
+userRouter.get('/', async (req, res) => {
+  console.log(`tentou lsitar users`)
   try {
     const users = await userController.fetchAll();
     return res.json(users);
@@ -58,14 +60,17 @@ userRouter.delete('/:id', async (req, res) => {
 })
 
 userRouter.post('/login', async (req, res) => {
-  try {
-    const [hashType, hash] = req.headers.authorization.split(' ');
-    const [email, password] = Buffer.from(hash, 'base64')
-      .toString()
-      .split(':');
-    const user = await authController.login({ email, password });
 
+  const [, hash] = req.headers.authorization.split(' ')
+  console.log(`headers: ${req.headers.authorization}`)
+  console.log(`hash: ${hash}`)
+  const [email, password] = Buffer.from(hash, 'base64')
+    .toString()
+    .split(':')
+  try {
+    const user = await authController.login({ email, password });
     if (user) {
+      console.log(user)
       const token = jwt.sign({ user: user.id})
       return res.json({user, token})
     } else {

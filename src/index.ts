@@ -2,9 +2,17 @@ import express from 'express';
 import 'reflect-metadata';
 import './database'
 import router from './routes/index';
+const cors = require('cors');
+
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204,
+}
+
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(router);
 
 app.listen(8000, () => {
