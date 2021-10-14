@@ -11,7 +11,8 @@ class Appointment {
     id: String;
 
     @ManyToOne(() => Provider, provider => provider.appointments)
-    provider: Provider;
+    provider: Provider
+    nullable: true
 
     @ManyToOne(() => Patient, patient => patient.appointments)
     patient: Patient;

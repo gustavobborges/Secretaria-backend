@@ -43,6 +43,7 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
           {
             name: "providerId",
             type: "varchar",
+            isNullable: true,
           },
           {
             name: 'created_at',

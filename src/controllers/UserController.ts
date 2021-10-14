@@ -1,5 +1,6 @@
 import { getRepository, getConnection } from 'typeorm';
 import User from '../models/User';
+import Provider from '../models/Provider';
 
 interface RequestCreate {
   name: String;
@@ -32,14 +33,23 @@ class UserController {
   }
 
   public async create({ name, email, password }: RequestCreate): Promise<User> {
+    const manager = getConnection().manager;
     const usersRepository = getRepository(User);
+    const providersRepository = getRepository(Provider);
+
+
     const user = new User();
     user.name = name;
     user.email = email;
     user.password = password;
     await usersRepository.save(user);
+    const provider = new Provider();
+    provider.name = name;
+    await providersRepository.save(provider);
+    await manager.query(`INSERT INTO providers_users (userId, providerId) VALUES ('${user.id}', '${provider.id}');`);
     return user;
   }
+
 
   public async update({ id, name, email, password }: RequestUpdate): Promise<User> {
     const usersRepository = getRepository(User);

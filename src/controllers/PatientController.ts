@@ -5,6 +5,7 @@ interface RequestCreate {
 	name: String;
 	phone: String;
 	record: String;
+  providerId: String;
 }
 
 interface RequestUpdate {
@@ -26,13 +27,15 @@ class PatientController {
     return patients;
   }
 
-  public async create({ name, phone, record }: RequestCreate): Promise<Patient> {
+  public async create({ name, phone, record, providerId }: RequestCreate): Promise<Patient> {
+    const manager = getConnection().manager;
     const patientsRepository = getRepository(Patient);
     const patient = new Patient();
     patient.name = name;
     patient.phone = phone;
     patient.record = record;
     await patientsRepository.save(patient);
+    await manager.query(`INSERT INTO providers_patients (providerId, patientId) VALUES ('${providerId}', '${patient.id}');`);
     return patient;
   }
 

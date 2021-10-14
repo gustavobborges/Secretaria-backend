@@ -15,11 +15,12 @@ patientRouter.get('/', async (req, res) => {
 
 patientRouter.post('/', async (req, res) => {
   try {
-    const { name, phone, record } = req.body;
+    const { name, phone, record, providerId } = req.body;
     const patient = await patientController.create({
       name,
       phone,
-      record
+      record,
+      providerId
     });
     return res.json(patient); 
   } catch (error) {
