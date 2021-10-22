@@ -1,12 +1,12 @@
 import { getRepository, getConnection } from 'typeorm';
 import Appointment from '../models/Appointment';
-import Provider from '../models/Provider';
+import User from '../models/User';
 import Patient from '../models/Patient';
 import AppointmentType from '../models/AppointmentType';
 
 interface RequestCreate {
   name: String;
-  provider: Provider;
+  user: User;
   patient: Patient;
   appointmentType: AppointmentType;
   place: String;
@@ -18,7 +18,7 @@ interface RequestCreate {
 interface RequestUpdate {
   id: String;
   name: String;
-  provider: Provider;
+  user: User;
   patient: Patient;
   appointmentType: AppointmentType;
   place: String;
@@ -39,11 +39,11 @@ class AppointmentController {
     return appointments;
   }
 
-  public async create({ name, provider, patient, appointmentType, place, description, initialDate, finalDate }: RequestCreate): Promise<Appointment> {
+  public async create({ name, user, patient, appointmentType, place, description, initialDate, finalDate }: RequestCreate): Promise<Appointment> {
     const appointmentsRepository = getRepository(Appointment);
     const appointment = new Appointment();
     appointment.name = name;
-    appointment.provider = provider;
+    appointment.user = user;
     appointment.patient = patient;
     appointment.appointmentType = appointmentType;
     appointment.place = place;
@@ -54,10 +54,10 @@ class AppointmentController {
     return appointment;
   }
 
-  public async update({ id, name, provider, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
+  public async update({ id, name, user, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
     const updateAppointment = {
       name: name,
-      provider: provider,
+      user: user,
       patient: patient,
       appointmentType: appointmentType,
       place: place,

@@ -13,6 +13,19 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
             isPrimary: true,
           },
           {
+            name: "patientId",
+            type: "varchar",
+            isNullable: true,
+          },
+          {
+            name: "appointmentTypeId",
+            type: "varchar",
+          },
+          {
+            name: "userId",
+            type: "varchar",
+          },
+          {
             name: 'name',
             type: 'varchar',
           },
@@ -33,19 +46,6 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
             type: 'timestamp',
           },
           {
-            name: "patientId",
-            type: "varchar",
-          },
-          {
-            name: "appointmentTypeId",
-            type: "varchar",
-          },
-          {
-            name: "providerId",
-            type: "varchar",
-            isNullable: true,
-          },
-          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
@@ -57,12 +57,12 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
           }
         ],
       })
-    )
+    );
 
     await queryRunner.createForeignKey('appointments', new TableForeignKey({
-      columnNames: ['providerId'],
+      columnNames: ['userId'],
       referencedColumnNames: ['id'],
-      referencedTableName: 'providers'
+      referencedTableName: 'users'
     }));
 
     await queryRunner.createForeignKey('appointments', new TableForeignKey({

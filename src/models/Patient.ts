@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinTable } from 'typeorm';
 
 import Appointment from './Appointment';
+import User from './User';
+
 
 @Entity('patients')
 class Patient {
@@ -10,6 +12,10 @@ class Patient {
 
     @OneToMany(() => Appointment, appointment => appointment.patient)
     appointments: Appointment[];
+
+    @ManyToOne(() => User, user => user.patients)
+    user: User;
+    nullable: true
 
     @Column()
     name: String;

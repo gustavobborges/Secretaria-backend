@@ -1,11 +1,13 @@
 import { getRepository, getConnection } from 'typeorm';
 import Patient from '../models/Patient';
+import User from '../models/User';
+
 
 interface RequestCreate {
+  user: User;
 	name: String;
 	phone: String;
 	record: String;
-  providerId: String;
 }
 
 interface RequestUpdate {
@@ -27,15 +29,14 @@ class PatientController {
     return patients;
   }
 
-  public async create({ name, phone, record, providerId }: RequestCreate): Promise<Patient> {
-    const manager = getConnection().manager;
+  public async create({ name, phone, record, user }: RequestCreate): Promise<Patient> {
     const patientsRepository = getRepository(Patient);
     const patient = new Patient();
     patient.name = name;
     patient.phone = phone;
     patient.record = record;
+    patient.user = user;
     await patientsRepository.save(patient);
-    await manager.query(`INSERT INTO providers_patients (providerId, patientId) VALUES ('${providerId}', '${patient.id}');`);
     return patient;
   }
 
@@ -53,8 +54,7 @@ class PatientController {
 
   public async delete({ id }: RequestDelete): Promise<Patient> {
     const manager = getConnection().manager;
-    await manager.query(`UPDATE appointments SET patientId = NULL WHERE patientId = '${id}';`);
-    await manager.query(`DELETE FROM providers_patients WHERE patientId = '${id}';`);		
+    await manager.query(`UPDATE appointments SET patientId = NULL WHERE patientId = '${id}';`);	
     await getConnection()
       .createQueryBuilder()
       .delete()

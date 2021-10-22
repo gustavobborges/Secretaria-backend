@@ -13,6 +13,10 @@ export class PatientMigration1623725336327 implements MigrationInterface {
             isPrimary: true,
           },
           {
+            name: "userId",
+            type: "varchar",
+          },
+          {
             name: 'name',
             type: 'varchar',
           },
@@ -36,11 +40,16 @@ export class PatientMigration1623725336327 implements MigrationInterface {
           }
         ],
       })
-    )
+    );
+
+    await queryRunner.createForeignKey('patients', new TableForeignKey({
+      columnNames: ['userId'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'users'
+    }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('patients');
   }
-
 }

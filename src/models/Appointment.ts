@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from 'typeorm';
 
-import Provider from './Provider';
+import User from './User';
 import Patient from './Patient';
 import AppointmentType from './AppointmentType';
 
@@ -10,8 +10,8 @@ class Appointment {
     @PrimaryGeneratedColumn('uuid')
     id: String;
 
-    @ManyToOne(() => Provider, provider => provider.appointments)
-    provider: Provider
+    @ManyToOne(() => User, user => user.appointments)
+    user: User
     nullable: true
 
     @ManyToOne(() => Patient, patient => patient.appointments)

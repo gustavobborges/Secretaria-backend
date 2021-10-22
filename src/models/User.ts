@@ -1,10 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, UpdateDateColumn, ManyToOne } from 'typeorm';
+
+import Appointment from './Appointment';
+import Patient from './Patient';
 
 @Entity('users')
 class User {
 
     @PrimaryGeneratedColumn('uuid')
     id: String;
+
+    @OneToMany(() => Appointment, appointment => appointment.user)
+    appointments: Appointment[];
+
+    @OneToMany(() => Patient, patient => patient.user)
+    patients: Patient[];
 
     @Column()
     name: String;

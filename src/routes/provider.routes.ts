@@ -17,7 +17,8 @@ providerRouter.post('/', async (req, res) => {
   try {
     const { name } = req.body;
     const provider = await providerController.create({
-      name
+      name,
+      
     });
     return res.json(provider); 
   } catch (error) {
