@@ -42,8 +42,8 @@ class AuthController {
   }
 
   public async login({ email, password }: RequestLogin): Promise<User> {
-    // console.log(`email: ${email}`);
-    // console.log(`senha: ${password}`)
+    console.log(`email: ${email}`);
+    console.log(`senha: ${password}`)
     const usersRepository = getRepository(User);
     const users = await usersRepository.findOne({
       email: email,

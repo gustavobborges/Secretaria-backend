@@ -2,7 +2,6 @@ import { getRepository, getConnection } from 'typeorm';
 import Patient from '../models/Patient';
 import User from '../models/User';
 
-
 interface RequestCreate {
   user: User;
 	name: String;

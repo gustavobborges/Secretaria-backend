@@ -11,10 +11,11 @@ class Appointment {
     id: String;
 
     @ManyToOne(() => User, user => user.appointments)
-    user: User
-    nullable: true
+    @JoinColumn({ name: 'userId' })
+    user: User;
 
     @ManyToOne(() => Patient, patient => patient.appointments)
+    @JoinColumn({ name: 'patientId' })
     patient: Patient;
 
     @ManyToOne(() => AppointmentType, appointmentType => appointmentType.appointments)

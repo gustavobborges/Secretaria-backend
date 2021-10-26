@@ -33,7 +33,7 @@ appointmentTypeRouter.put('/:id', async (req, res) => {
       id, name
     })
 
-    return res.json({message: "O usuário foi alterado com sucesso"})
+    return res.json({message: "O tipo de compromisso foi alterado com sucesso"})
   } catch (error) {
     return res.json({message: "Não foi possível cadastrar o tipo de compromisso. Erro: " + error});
   }

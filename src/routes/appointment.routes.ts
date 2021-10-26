@@ -7,6 +7,7 @@ const appointmentController = new AppointmentController();
 appointmentRouter.get('/', async (req, res) => {
   try {
     const appointments = await appointmentController.fetchAll();
+    console.log(appointments)
     return res.json(appointments);
   } catch (error) {
     res.json({ message: "Não foi possível cadastrar os usuarios. Erro: " });
@@ -15,10 +16,10 @@ appointmentRouter.get('/', async (req, res) => {
 
 appointmentRouter.post('/', async (req, res) => {
   try {
-    const { name, provider, patient, appointmentType, place, description, initialDate, finalDate } = req.body;
+    const { name, user, patient, appointmentType, place, description, initialDate, finalDate } = req.body;
     const appointment = await appointmentController.create({
       name,
-      provider,
+      user,
       patient, 
       appointmentType, 
       place, 
@@ -34,10 +35,10 @@ appointmentRouter.post('/', async (req, res) => {
 
 appointmentRouter.put('/:id', async (req, res) => {
   try {
-    const { name, provider, patient, appointmentType, place, description, initialDate, finalDate } = req.body;
+    const { name, patient, appointmentType, place, description, initialDate, finalDate } = req.body;
     const { id } = req.params;
     await appointmentController.update({
-      id, name, provider, patient, appointmentType, place, description, initialDate, finalDate
+      id, name, patient, appointmentType, place, description, initialDate, finalDate
     })
 
     return res.json({message: "O compromisso foi alterado com sucesso"})

@@ -18,7 +18,6 @@ interface RequestCreate {
 interface RequestUpdate {
   id: String;
   name: String;
-  user: User;
   patient: Patient;
   appointmentType: AppointmentType;
   place: String;
@@ -35,7 +34,7 @@ class AppointmentController {
 
   public async fetchAll() {
     const appointmentsRepository = getRepository(Appointment);
-    const appointments = await appointmentsRepository.find();
+    const appointments = await appointmentsRepository.find({ relations: ["user", "patient"] });
     return appointments;
   }
 
@@ -54,10 +53,9 @@ class AppointmentController {
     return appointment;
   }
 
-  public async update({ id, name, user, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
+  public async update({ id, name, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
     const updateAppointment = {
       name: name,
-      user: user,
       patient: patient,
       appointmentType: appointmentType,
       place: place,
