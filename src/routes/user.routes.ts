@@ -9,7 +9,6 @@ const authController = new AuthController();
 
 // userRouter.get('/', authController.authMiddleware, async (req, res) => {
 userRouter.get('/', async (req, res) => {
-  console.log(`tentou lsitar users`)
   try {
     const users = await userController.fetchAll();
     return res.json(users);

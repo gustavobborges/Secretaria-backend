@@ -4,9 +4,10 @@ const patientRouter = Router();
 import PatientController from '../controllers/PatientController'
 const patientController = new PatientController();
 
-patientRouter.get('/', async (req, res) => {
+patientRouter.get('/:id', async (req, res) => {
   try {
-    const patients = await patientController.fetchAll();
+    const { id } = req.params;
+    const patients = await patientController.fetchAll(id);
     return res.json(patients);
   } catch (error) {
     res.json({ message: "Não foi possível buscar usuarios. Erro: " + error });

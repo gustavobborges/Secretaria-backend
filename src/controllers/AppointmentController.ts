@@ -32,9 +32,14 @@ interface RequestDelete {
 
 class AppointmentController {
 
-  public async fetchAll() {
+  public async fetchAll(id) {
     const appointmentsRepository = getRepository(Appointment);
-    const appointments = await appointmentsRepository.find({ relations: ["user", "patient"] });
+    const appointments = await (await appointmentsRepository.find({ 
+      relations: ["user", "patient", "appointmentType"],
+      where: {
+        user: id
+      },
+     }));
     return appointments;
   }
 
@@ -49,6 +54,10 @@ class AppointmentController {
     appointment.description = description;
     appointment.initialDate = initialDate;
     appointment.finalDate = finalDate;
+    console.log(`=============`)
+    console.log(appointment)
+    console.log(`=============`)
+
     await appointmentsRepository.save(appointment);
     return appointment;
   }

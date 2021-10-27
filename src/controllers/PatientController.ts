@@ -22,9 +22,10 @@ interface RequestDelete {
 
 class PatientController {
 
-  public async fetchAll() {
+  public async fetchAll(id) {
     const patientsRepository = getRepository(Patient);
-    const patients = await patientsRepository.find();
+    const patients = await patientsRepository.find({ user: id });
+    console.log(patients)
     return patients;
   }
 

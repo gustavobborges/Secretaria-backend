@@ -4,10 +4,10 @@ const appointmentRouter = Router();
 import AppointmentController from '../controllers/AppointmentController'
 const appointmentController = new AppointmentController();
 
-appointmentRouter.get('/', async (req, res) => {
+appointmentRouter.get('/:id', async (req, res) => {
   try {
-    const appointments = await appointmentController.fetchAll();
-    console.log(appointments)
+    const { id } = req.params;
+    const appointments = await appointmentController.fetchAll(id);
     return res.json(appointments);
   } catch (error) {
     res.json({ message: "Não foi possível cadastrar os usuarios. Erro: " });

@@ -43,7 +43,6 @@ class UserController {
 
 
   public async update({ id, name, email, password }: RequestUpdate): Promise<User> {
-    console.log(`==== update`)
     const updateUser = { name: name, email: email, password: password };
     Object.keys(updateUser).forEach(key => updateUser[key] === undefined ? delete updateUser[key] : {})
     await getConnection()
