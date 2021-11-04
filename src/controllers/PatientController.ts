@@ -7,6 +7,8 @@ interface RequestCreate {
 	name: String;
 	phone: String;
 	record: String;
+  email: String;
+  address: String;
 }
 
 interface RequestUpdate {
@@ -14,6 +16,8 @@ interface RequestUpdate {
 	name: String;
 	phone: String;
 	record: String;
+  email: String;
+  address: String;
 }
 
 interface RequestDelete {
@@ -29,19 +33,21 @@ class PatientController {
     return patients;
   }
 
-  public async create({ name, phone, record, user }: RequestCreate): Promise<Patient> {
+  public async create({ name, phone, record, user, email, address }: RequestCreate): Promise<Patient> {
     const patientsRepository = getRepository(Patient);
     const patient = new Patient();
     patient.name = name;
     patient.phone = phone;
     patient.record = record;
     patient.user = user;
+    patient.email = email;
+    patient.address = address;
     await patientsRepository.save(patient);
     return patient;
   }
 
-  public async update({ id, name, phone, record }: RequestUpdate): Promise<Patient> {
-    const updatePatient = { name: name, phone: phone, record: record };
+  public async update({ id, name, phone, record, email, address}: RequestUpdate): Promise<Patient> {
+    const updatePatient = { name: name, phone: phone, record: record, email: email, address: address };
     Object.keys(updatePatient).forEach(key => updatePatient[key] === undefined ? delete updatePatient[key] : {})
     await getConnection()
       .createQueryBuilder()

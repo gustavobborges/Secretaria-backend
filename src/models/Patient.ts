@@ -24,7 +24,13 @@ class Patient {
     phone: String;
 
     @Column()
+    address: String;
+
+    @Column()
     record: String;
+
+    @Column()
+    email: String;
 
     @CreateDateColumn()
     created_at: Date;

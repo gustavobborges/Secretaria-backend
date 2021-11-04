@@ -16,12 +16,14 @@ patientRouter.get('/:id', async (req, res) => {
 
 patientRouter.post('/', async (req, res) => {
   try {
-    const { name, phone, record, user } = req.body;
+    const { name, phone, record, user, email, address } = req.body;
     const patient = await patientController.create({
       name,
       phone,
       record,
-      user
+      user,
+      email,
+      address,
     });
     return res.json(patient); 
   } catch (error) {
@@ -31,11 +33,11 @@ patientRouter.post('/', async (req, res) => {
 
 patientRouter.put('/:id', async (req, res) => {
   try {
-    const { name, phone, record } = req.body;
+    const { name, phone, record, email, address } = req.body;
     const { id } = req.params;
 
     await patientController.update({
-      id, name, phone, record
+      id, name, phone, record, email, address
     })
 
     return res.json({message: "O paciente foi alterado com sucesso"})

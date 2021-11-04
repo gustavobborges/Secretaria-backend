@@ -23,10 +23,22 @@ export class PatientMigration1623725336327 implements MigrationInterface {
           {
             name: 'phone',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'record',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'address',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'email',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',

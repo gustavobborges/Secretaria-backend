@@ -32,10 +32,12 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'place',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'initialDate',

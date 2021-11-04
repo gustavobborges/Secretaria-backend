@@ -54,9 +54,6 @@ class AppointmentController {
     appointment.description = description;
     appointment.initialDate = initialDate;
     appointment.finalDate = finalDate;
-    console.log(`=============`)
-    console.log(appointment)
-    console.log(`=============`)
 
     await appointmentsRepository.save(appointment);
     return appointment;
