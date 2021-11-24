@@ -28,16 +28,35 @@ export class AppointmentMigration1623725382213 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            length: '45'
           },
           {
             name: 'description',
             type: 'varchar',
             isNullable: true,
+            length: '255'
           },
           {
             name: 'place',
             type: 'varchar',
             isNullable: true,
+            length: '45'
+          },
+          {
+            name: 'confirmationSendedDate',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'confirmationResponsedDate',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
+            name: 'confirmationStatus',
+            type: 'varchar',
+            isNullable: true,
+            length: '45'
           },
           {
             name: 'initialDate',

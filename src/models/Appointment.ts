@@ -31,6 +31,15 @@ class Appointment {
     description: String;
 
     @Column()
+    confirmationStatus: String;
+
+    @Column()
+    confirmationSendedDate: Date;
+
+    @Column()
+    confirmationResponsedDate: Date;
+
+    @Column()
     initialDate: Date;
 
     @Column()
