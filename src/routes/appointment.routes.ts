@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import axios from 'axios';
 const appointmentRouter = Router();
 
 import AppointmentController from '../controllers/AppointmentController'
@@ -56,5 +57,25 @@ appointmentRouter.delete('/:id', async (req, res) => {
     return res.json({message: "Não foi possível cadastrar o compromisso. Erro: " + error});
   }
 })
+
+appointmentRouter.post('/sendMessage/:id', async (req, res) => {
+  try {
+    console.log(req.body);
+    const { phone, userName, initialDate } = req.body;
+    const { id } = req.params;
+
+    axios.post('http://localhost:8080/sendMessage', {
+      messageText: 'Voce confirma sua consulta?',
+      phone: phone,
+    })
+
+    return res.json({message: "Mensagem enviada com sucesso!"})
+  } catch (error) {
+    return res.json({message: "Mensagem não enviada. Erro: " + error});
+  }
+})
+
+
+
 
 export default appointmentRouter;
