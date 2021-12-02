@@ -26,6 +26,19 @@ interface RequestUpdate {
   finalDate: Date;
 }
 
+interface RequestUpdateConfirmationSended {
+  id: String;
+  confirmationSendedDate: Date;
+  confirmationStatus: String;
+}
+
+interface RequestUpdateConfirmationResponsed {
+  id: String;
+  confirmationResponsedDate: Date;
+  confirmationStatus: String;
+}
+
+
 interface RequestDelete {
   id: String;
 }
@@ -34,16 +47,25 @@ class AppointmentController {
 
   public async fetchAll(id) {
     const appointmentsRepository = getRepository(Appointment);
-    const appointments = await (await appointmentsRepository.find({ 
+    const appointments = await (await appointmentsRepository.find({
       relations: ["user", "patient", "appointmentType"],
       where: {
         user: id
       },
-     }));
+    }));
     return appointments;
   }
 
-  public async create({ name, user, patient, appointmentType, place, description, initialDate, finalDate }: RequestCreate): Promise<Appointment> {
+  public async create({ 
+      name, 
+      user, 
+      patient, 
+      appointmentType, 
+      place, 
+      description, 
+      initialDate,
+      finalDate
+   }: RequestCreate): Promise<Appointment> {
     const appointmentsRepository = getRepository(Appointment);
     const appointment = new Appointment();
     appointment.name = name;
@@ -59,7 +81,16 @@ class AppointmentController {
     return appointment;
   }
 
-  public async update({ id, name, patient, appointmentType, place, description, initialDate, finalDate }: RequestUpdate): Promise<Appointment> {
+  public async update({ 
+      id,
+      name,
+      patient,
+      appointmentType,
+      place,
+      description,
+      initialDate,
+      finalDate
+    }: RequestUpdate): Promise<Appointment> {
     const updateAppointment = {
       name: name,
       patient: patient,
@@ -67,7 +98,7 @@ class AppointmentController {
       place: place,
       description: description,
       initialDate: initialDate,
-      finalDate: finalDate,
+      finalDate: finalDate
     };
     Object.keys(updateAppointment).forEach(key => updateAppointment[key] === undefined ? delete updateAppointment[key] : {})
     await getConnection()
@@ -79,6 +110,44 @@ class AppointmentController {
     return;
   }
 
+  public async updateConfirmationSended({ 
+    id,
+    confirmationSendedDate,
+    confirmationStatus
+    }: RequestUpdateConfirmationSended): Promise<Appointment> {
+    const updateAppointment = {
+      confirmationSendedDate: confirmationSendedDate,
+      confirmationStatus: confirmationStatus
+    };
+    Object.keys(updateAppointment).forEach(key => updateAppointment[key] === undefined ? delete updateAppointment[key] : {})
+    await getConnection()
+      .createQueryBuilder()
+      .update(Appointment)
+      .set(updateAppointment)
+      .where({ id: id })
+      .execute();
+    return;
+  }
+
+  public async updateConfirmationResponsed({ 
+    id,
+    confirmationResponsedDate,
+    confirmationStatus
+    }: RequestUpdateConfirmationResponsed): Promise<Appointment> {
+    const updateAppointment = {
+      confirmationResponsedDate: confirmationResponsedDate,
+      confirmationStatus: confirmationStatus
+    };
+    Object.keys(updateAppointment).forEach(key => updateAppointment[key] === undefined ? delete updateAppointment[key] : {})
+    await getConnection()
+      .createQueryBuilder()
+      .update(Appointment)
+      .set(updateAppointment)
+      .where({ id: id })
+      .execute();
+    return;
+  }
+  
   public async delete({ id }: RequestDelete): Promise<Appointment> {
     await getConnection()
       .createQueryBuilder()

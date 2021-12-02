@@ -40,7 +40,7 @@ appointmentRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
     await appointmentController.update({
       id, name, patient, appointmentType, place, description, initialDate, finalDate
-    })
+    });
 
     return res.json({message: "O compromisso foi alterado com sucesso"})
   } catch (error) {
@@ -61,17 +61,45 @@ appointmentRouter.delete('/:id', async (req, res) => {
 appointmentRouter.post('/sendMessage/:id', async (req, res) => {
   try {
     console.log(req.body);
-    const { phone, userName, initialDate } = req.body;
+    const { phone, patient, userName, initialDate, confirmationSendedDate, confirmationStatus } = req.body;
     const { id } = req.params;
 
     axios.post('http://localhost:8080/sendMessage', {
-      messageText: 'Voce confirma sua consulta?',
+      messageText: `
+        Olá, ${patient}! 
+        Voce confirma sua consulta com ${userName} no dia ${initialDate}?
+        Digite:
+        1 - Confirmar
+        2 - Não irei comparecer
+      `,
       phone: phone,
+      appointmentId: id
+    });
+
+    await appointmentController.updateConfirmationSended({
+      id, confirmationSendedDate, confirmationStatus
     })
 
-    return res.json({message: "Mensagem enviada com sucesso!"})
+    return res.json({message: "O compromisso foi alterado com sucesso", success: true})
   } catch (error) {
-    return res.json({message: "Mensagem não enviada. Erro: " + error});
+    return res.json({message: "Mensagem não enviada. Erro: " + error, success: false});
+  }
+})
+
+
+appointmentRouter.post('/messageResponse/:id', async (req, res) => {
+  try {
+    console.log(req.body);
+    const { response: confirmationStatus, date: confirmationResponsedDate } = req.body;
+    const { id } = req.params;
+
+    await appointmentController.updateConfirmationResponsed({
+      id, confirmationResponsedDate, confirmationStatus
+    })
+
+    return res.json({message: "O status do compromisso foi alterado com sucesso", success: true})
+  } catch (error) {
+    return res.json({message: "Não foi possível alterar a confirmação. Erro: " + error, success: false});
   }
 })
 
