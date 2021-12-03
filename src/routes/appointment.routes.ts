@@ -65,13 +65,8 @@ appointmentRouter.post('/sendMessage/:id', async (req, res) => {
     const { id } = req.params;
 
     axios.post('http://localhost:8080/sendMessage', {
-      messageText: `
-        Olá, ${patient}! 
-        Voce confirma sua consulta com ${userName} no dia ${initialDate}?
-        Digite:
-        1 - Confirmar
-        2 - Não irei comparecer
-      `,
+      messageText: 
+      `Olá, ${patient}!\nVoce confirma sua consulta com ${userName} no dia ${initialDate}?\n\nDigite:\n1 - Confirmar\n2 - Não irei comparecer`,
       phone: phone,
       appointmentId: id
     });
