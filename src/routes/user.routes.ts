@@ -17,6 +17,18 @@ userRouter.get('/', async (req, res) => {
   }
 });
 
+userRouter.post('/getByEmail', async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log('email', email)
+    const userId = await userController.fetchByEmail({email});
+    return res.json({id: userId});
+  } catch (error) {
+    res.json({ message: "Problema ao buscar usuário por email" });
+  }
+});
+
+
 userRouter.post('/', async (req, res) => {
   try {
     const { name, email, password } = req.body;

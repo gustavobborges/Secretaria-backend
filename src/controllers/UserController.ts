@@ -23,12 +23,29 @@ interface RequestLogin {
   password: String;
 }
 
+interface RequestFetchByEmail {
+  email: String;
+}
+
 class UserController {
 
   public async fetchAll() {
     const usersRepository = getRepository(User);
     const users = await usersRepository.find();
     return users;
+  }
+
+  public async fetchByEmail({email}: RequestFetchByEmail) {
+    const usersRepository = getRepository(User);
+    const user = await usersRepository.find({
+      where: {
+        email: email
+      },
+    });
+
+    const response = user[0] ? user[0].id : 'error'
+
+    return response;
   }
 
   public async create({ name, email, password }: RequestCreate): Promise<User> {
