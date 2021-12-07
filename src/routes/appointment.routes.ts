@@ -3,6 +3,7 @@ import axios from 'axios';
 const appointmentRouter = Router();
 
 import AppointmentController from '../controllers/AppointmentController'
+import { formatDateTime } from '../services/dateFormatter';
 const appointmentController = new AppointmentController();
 
 appointmentRouter.get('/:id', async (req, res) => {
@@ -63,10 +64,11 @@ appointmentRouter.post('/sendMessage/:id', async (req, res) => {
     console.log(req.body);
     const { phone, patient, userName, initialDate, confirmationSendedDate, confirmationStatus } = req.body;
     const { id } = req.params;
-
+    const newDate = formatDateTime(new Date(initialDate));
+    
     axios.post('http://localhost:8080/sendMessage', {
       messageText: 
-      `Olá, ${patient}!\nVoce confirma sua consulta com ${userName} no dia ${initialDate}?\n\nDigite:\n1 - Confirmar\n2 - Não irei comparecer`,
+      `Olá, ${patient}!\nVoce confirma sua consulta com ${userName} no dia ${newDate}?\n\nDigite:\n1 - Confirmar\n2 - Não irei comparecer`,
       phone: phone,
       appointmentId: id
     });

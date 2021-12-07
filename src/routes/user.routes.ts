@@ -7,7 +7,6 @@ import AuthController from '../controllers/AuthController'
 const userController = new UserController();
 const authController = new AuthController();
 
-// userRouter.get('/', authController.authMiddleware, async (req, res) => {
 userRouter.get('/', async (req, res) => {
   try {
     const users = await userController.fetchAll();
@@ -20,7 +19,6 @@ userRouter.get('/', async (req, res) => {
 userRouter.post('/getByEmail', async (req, res) => {
   try {
     const { email } = req.body;
-    console.log('email', email)
     const userId = await userController.fetchByEmail({email});
     return res.json({id: userId});
   } catch (error) {
@@ -73,8 +71,6 @@ userRouter.delete('/:id', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
 
   const [, hash] = req.headers.authorization.split(' ')
-  console.log(`headers: ${req.headers.authorization}`)
-  console.log(`hash: ${hash}`)
   const [email, password] = Buffer.from(hash, 'base64')
     .toString()
     .split(':')
